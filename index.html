@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CatchUp AI — What did I miss?</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--panel2:#18233b;--text:#eef3ff;--muted:#a4b1ca;--mint:#72f0c1;--blue:#8ab4ff;--red:#ff8f9b;--yellow:#ffd479;--line:#293653}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#162647 0%,var(--bg) 52%);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:1120px;margin:auto;padding:28px 18px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#72f0c1,#78a9ff);display:grid;place-items:center;color:#071322;font-size:23px;font-weight:900}.brand h1{font-size:22px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.privacy{border:1px solid #2b6c5b;background:#102c2a;color:var(--mint);border-radius:999px;padding:7px 11px;font-size:12px;white-space:nowrap}
+.hero{margin-bottom:22px}.eyebrow{color:var(--mint);text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}.hero h2{font-size:clamp(28px,5vw,43px);line-height:1.08;letter-spacing:-1.2px;margin:9px 0}.hero h2 span{color:var(--mint)}.hero p{color:var(--muted);max-width:650px;margin:0}
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}.panel{background:rgba(18,26,46,.92);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 15px 45px #0002}.panel h3{margin:0 0 5px;font-size:17px}.sub{color:var(--muted);font-size:13px;margin:0 0 14px}textarea{width:100%;min-height:285px;resize:vertical;border:1px solid #334361;background:#0a1121;color:var(--text);padding:14px;border-radius:13px;font:13px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}textarea:focus{border-color:var(--mint);box-shadow:0 0 0 3px #72f0c11c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:800;cursor:pointer}.primary{background:var(--mint);color:#071820;flex:1}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.primary:hover{filter:brightness(1.06)}.privacy-note{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:12px;margin-top:13px}.right{display:flex;flex-direction:column;gap:14px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px}.metric b{display:block;font-size:24px}.metric span{font-size:11px;color:var(--muted)}.results{min-height:270px}.empty{display:grid;place-items:center;text-align:center;min-height:250px;color:var(--muted);padding:20px}.empty .emoji{font-size:36px;margin-bottom:8px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.tab{background:#0b1325;color:var(--muted);border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;font-size:12px}.tab.active{background:#17382f;border-color:#367b66;color:var(--mint)}.item{padding:11px 12px;border-radius:11px;background:#0c1426;border:1px solid #26334d;margin:8px 0;font-size:13px}.item small{display:block;color:var(--muted);margin-top:4px}.item.urgent{border-left:3px solid var(--red)}.item.task{border-left:3px solid var(--mint)}.item.mention{border-left:3px solid var(--yellow)}.section-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-top:15px}.tag{display:inline-block;border-radius:6px;padding:2px 6px;background:#2b2131;color:var(--red);font-size:10px;margin-right:5px}.footer{text-align:center;color:#71809d;font-size:11px;margin-top:22px}.pitch{margin-top:18px;background:#101b2f;border:1px solid var(--line);border-radius:15px;padding:16px}.pitch h3{margin:0 0 6px;color:var(--mint);font-size:14px}.pitch p{margin:0;color:var(--muted);font-size:13px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.top{align-items:flex-start}.privacy{font-size:10px}.panel{padding:15px}textarea{min-height:230px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo">↗</div><div><h1>CatchUp AI</h1><p>Unread conversation intelligence</p></div></div>
+    <div class="privacy">⌑ LOCAL DEMO · NO UPLOAD</div>
+  </header>
+  <section class="hero">
+    <div class="eyebrow">The unread problem</div>
+    <h2>Catch up in seconds.<br><span>Miss nothing important.</span></h2>
+    <p>Turn noisy group chats into a quick brief: key updates, tasks, deadlines, and messages that deserve your attention.</p>
+  </section>
+  <main class="layout">
+    <section class="panel">
+      <h3>Paste your conversation</h3>
+      <p class="sub">Paste chat text below, or load the sample to try the demo.</p>
+      <textarea id="chat" aria-label="Chat conversation" placeholder="Paste your unread group chat here..."></textarea>
+      <div class="actions"><button class="btn primary" id="analyze">✦ Analyze conversation</button><button class="btn secondary" id="sample">Load sample</button><button class="btn secondary" id="clear">Clear</button></div>
+      <div class="privacy-note"><span>🔒</span><span>This prototype analyzes text in your browser using simple rules. It does not upload or save the conversation. Full AI model integration can be added next.</span></div>
+    </section>
+    <section class="right">
+      <div class="metrics">
+        <div class="metric"><b id="mMessages">—</b><span>MESSAGES</span></div>
+        <div class="metric"><b id="mTasks">—</b><span>POSSIBLE TASKS</span></div>
+        <div class="metric"><b id="mUrgent">—</b><span>PRIORITY FLAGS</span></div>
+      </div>
+      <section class="panel results">
+        <h3>Your catch-up report</h3><p class="sub" id="reportSub">Your summary will appear here.</p>
+        <div id="output" class="empty"><div><div class="emoji">✦</div><b>Ready when you are</b><div>Paste a conversation and click Analyze.</div></div></div>
+      </section>
+    </section>
+  </main>
+  <section class="pitch"><h3>Why CatchUp AI?</h3><p>It doesn't just shorten a conversation. It surfaces decisions, possible next steps, mentions, and time-sensitive messages so users can decide what to read first.</p></section>
+  <div class="footer">HACKATHON MVP · Rule-based demo · Verify extracted tasks and dates against the original chat.</div>
+</div>
+<script>
+const sample = `Aarav: Guys, our project presentation is Friday at 10 AM.
+Priya: I finished the UI design.
+Rahul: The backend is still incomplete.
+Aarav: Rahul, please finish the API by Thursday evening.
+Priya: @everyone submit your slides by Thursday 5 PM.
+Rahul: I will finish the API tomorrow.
+Aarav: Final meeting Thursday at 6 PM.
+Meera: We agreed to use the dark theme for the demo.`;
+const $ = id => document.getElementById(id);
+$('sample').onclick = () => {$('chat').value = sample;};
+$('clear').onclick = () => {$('chat').value=''; $('output').className='empty'; $('output').innerHTML='<div><div class="emoji">✦</div><b>Ready when you are</b><div>Paste a conversation and click Analyze.</div></div>'; $('reportSub').textContent='Your summary will appear here.'; ['mMessages','mTasks','mUrgent'].forEach(id=>$(id).textContent='—');};
+const taskRx = /please|need to|must\b|submit|finish|complete|send|prepare|don't forget|do not forget|action item|will (?:do|finish|send|prepare|complete)|remind/i;
+const urgencyRx = /urgent|asap|immediately|deadline|due today|tomorrow|today|by (?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)|\b\d{1,2}(?::\d{2})?\s?(?:am|pm)\b/i;
+const decisionRx = /decided|confirmed|final decision|agreed|meeting|presentation|deadline|will be held|we chose|we will use/i;
+function analyze(){
+ const raw=$('chat').value.trim();
+ if(!raw){$('chat').focus();return;}
+ const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+ const unique = arr => [...new Set(arr)];
+ const tasks=unique(lines.filter(x=>taskRx.test(x)));
+ const urgent=unique(lines.filter(x=>urgencyRx.test(x)));
+ const mentions=unique(lines.filter(x=>/@everyone|@all|@here|@\w+/i.test(x)));
+ const decisions=unique(lines.filter(x=>decisionRx.test(x)));
+ const key=unique([...decisions,...tasks]).slice(0,5);
+ $('mMessages').textContent=lines.length;
+ $('mTasks').textContent=tasks.length;
+ $('mUrgent').textContent=unique([...urgent,...mentions]).length;
+ $('reportSub').textContent='Analysis complete · '+lines.length+' messages scanned in this browser';
+ let active='summary';
+ function render(){
+   const out=$('output');out.className='';out.innerHTML='';
+   const tabs=document.createElement('div');tabs.className='tabs';
+   [['summary','Key points'],['tasks','Action items'],['priority','Priority'],['mentions','Mentions']].forEach(([id,label])=>{
+     const b=document.createElement('button');b.className='tab'+(active===id?' active':'');b.textContent=label;b.onclick=()=>{active=id;render();};tabs.appendChild(b);
+   });out.appendChild(tabs);
+   let title='',arr=[],cls='';
+   if(active==='summary'){title='KEY DISCUSSION POINTS';arr=key;cls='';}
+   if(active==='tasks'){title='POSSIBLE ACTION ITEMS';arr=tasks;cls='task';}
+   if(active==='priority'){title='TIME-SENSITIVE MESSAGES';arr=urgent;cls='urgent';}
+   if(active==='mentions'){title='DIRECT MENTIONS / GROUP PINGS';arr=mentions;cls='mention';}
+   const label=document.createElement('div');label.className='section-label';label.textContent=title;out.appendChild(label);
+   if(!arr.length){const e=document.createElement('div');e.className='item';e.textContent='No clear items detected by the prototype rules. Check the original chat for anything important.';out.appendChild(e);}
+   arr.forEach((x,i)=>{const d=document.createElement('div');d.className='item '+cls;const text=document.createElement('div');text.textContent=x;d.appendChild(text);const small=document.createElement('small');small.textContent=active==='tasks'?'Suggested task · verify owner and deadline':active==='priority'?'Review timing and urgency':active==='mentions'?'Mention or group ping detected':'Extracted from conversation · verify context';d.appendChild(small);out.appendChild(d);});
+   if(active==='summary'){const p=document.createElement('p');p.style.cssText='color:var(--muted);font-size:12px;margin-top:14px';p.textContent='This is a rule-based summary of likely key lines, not a generated AI summary.';out.appendChild(p);}
+ }
+ render();
+}
+$('analyze').onclick=analyze;
+$('chat').value=sample;
+</script>
+</body>
+</html>
